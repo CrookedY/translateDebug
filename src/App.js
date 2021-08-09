@@ -1,27 +1,44 @@
 import "./App.css";
-import React, { useState, useEffect, createRef, useRef } from "react";
+import React, { useState} from "react";
 import Counter from "./Counter";
 
 function App() {
-  let counterRefs = [];
   const [counters, cCounter] = useState(
-    new Array(3).fill().map((v, i) => {
-      const ref = createRef();
-      counterRefs.push(ref);
-      return <Counter ref={ref} key={i} />;
-    })
+    {
+      0: 0,
+      1: 0,
+      2: 0
+    }
   );
 
   const resetHandler = () => {
-    counterRefs.forEach((r) => {
-      console.log(r);
-      // r.current.resetCounter();
-    });
+    cCounter({
+      0: 0,
+      1: 0,
+      2: 0
+    })
   };
 
   return (
     <div className="appContainer">
-      {counters}
+      {Object.values(counters).map((count, i) => {
+        return (
+          <Counter
+            count={count}
+            key={i}
+            buttonHandler={() => {
+              cCounter((prevState) => {
+                return { ...prevState, [i]: prevState[i] + 1 };
+              });
+            }}
+            resetCounter={() => {
+              cCounter((prevState) => {
+                return { ...prevState, [i]: 0 };
+              });
+            }}
+          />
+        );
+      })}
       <br />
       <div className="resetButton">
         <button onClick={() => resetHandler()}>Reset all counter</button>

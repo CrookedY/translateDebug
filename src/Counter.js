@@ -1,19 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Counter(props) {
-  const [count, changeCount] = useState(0);
-
-  const buttonHandler = () => {
-    console.log("clicked");
-    changeCount((prevState) => prevState + 1);
-  };
-
-  const resetCounter = () => {
-    changeCount(0);
-  };
-
+function Counter({buttonHandler, count, resetCounter, counterName}) {
   return (
-    <div className={props.counterName}>
+    <div className={counterName}>
       <h1>Tally Counter</h1>
       <p>{count}</p>
       <button onClick={() => buttonHandler()}>Increase</button>
